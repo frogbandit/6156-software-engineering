@@ -78,8 +78,17 @@ var simulation = d3.forceSimulation()
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(width / 2, height / 2));
 
-d3.json("final-10000.json", function(error, graph) {
-    if (error) throw error;
+url = "https://storage.googleapis.com/tswe-genomics.appspot.com/final-10000.json"
+$.ajax({
+  dataType: "json",
+  url: url,
+  }).done(function ( data ) {
+  // do my stuff
+    console.log(data);
+    console.log(typeof(data))
+
+// d3.json("final-2000.json", function(error, graph) {
+    graph = data;
     var link = svg.append("g")
         .attr("class", "links")
         .selectAll("line")
@@ -94,6 +103,15 @@ d3.json("final-10000.json", function(error, graph) {
         .data(graph.nodes)
         .enter().append("g")
         .classed('gnode', true);
+
+    var tooltip = d3.select("body")
+    .append("div")
+    .style("position", "absolute")
+    .style("z-index", "10")
+    .style("visibility", "hidden")
+    .text("a simple tooltip");
+    
+
 
     var node = svg.append("g")
         .attr("class", "nodes")
@@ -162,6 +180,7 @@ d3.json("final-10000.json", function(error, graph) {
                 return "translate(" + d.x + "," + d.y + ")";
             });
     }
+// });
 });
 
 function dragstarted(d) {
