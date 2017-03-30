@@ -11,6 +11,7 @@ from google.cloud import storage
 
 from google.appengine.api import app_identity
 from google.appengine.api import memcache
+from google.appengine.api import namespace_manager
 
 from flask import Flask, render_template, request, redirect
 
@@ -33,17 +34,16 @@ def fd():
     bucket = '/' + bucket_name
     filename = bucket + '/final-2000.json'
     # f = 'final-2000.json'
-    print('\n\n\n' + filename)
     # create_file(filename)
     # link = find_blob(bucket_name, f)
     # f = read_file(filename)
-    print('asdfasdfasdf')
 
     stats = memcache.get_stats()
     print(stats)
     val = memcache.get(key="final-5000")
     print(val)
-    
+    get() # gets namespace for memcache, and global
+
     return render_template('force-directed.html', api_data=[])
 
 @app.route('/fd-1500')
@@ -97,7 +97,6 @@ def server_error(e):
 
 def read_file(filename):
 
-    print('hi')
     with cloudstorage.open(filename) as cloudstorage_file:
         # print(cloudstorage_file.readline())
         # cloudstorage_file.seek(-1024, os.SEEK_END)
@@ -105,7 +104,6 @@ def read_file(filename):
         print(result)
         with open('data.json', 'w') as outfile:
             json.dump(result, outfile)    
-
     return result
 
 def list_bucket(bucket):
@@ -131,7 +129,6 @@ def list_bucket(bucket):
 def create_file(filename):
     """Create a file."""
 
-
     # The retry_params specified in the open call will override the default
     # retry params for this particular file handle.
     write_retry_params = cloudstorage.RetryParams(backoff_factor=1.1)
@@ -143,7 +140,6 @@ def create_file(filename):
 
 def find_blob(bucket_name, f):
     """Lists all the blobs in the bucket."""
-    print('\n\n\n\n\nhi my name is james\n\n\n\n\n')
     storage_client = storage.Client()
     bucket = storage_client.get_bucket(bucket_name)
 
@@ -155,6 +151,21 @@ def find_blob(bucket_name, f):
     blob = bucket.get_blob(f)
     print(blob.self_link)
     return blob.self_link
+
+def get(namespace='default'):
+    global_count = memcache.incr('counter', initial_value=0)
+
+    # Save the current namespace.
+    previous_namespace = namespace_manager.get_namespace()
+    try:
+        namespace_manager.set_namespace(namespace)
+        namespace_count = memcache.incr('counter', initial_value=0)
+    finally:
+        # Restore the saved namespace.
+        namespace_manager.set_namespace(previous_namespace)
+
+    print('Global: {}, Namespace {}: {}'.format(
+        global_count, namespace, namespace_count))
 
 # if __name__ == "__main__":
 #     app.run(host='0.0.0.0')
