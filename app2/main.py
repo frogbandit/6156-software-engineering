@@ -24,27 +24,27 @@ def main():
 # FORCE DIRECTED GRAPH
 @app.route('/fd')
 def fd():
-    # bucket_name = os.environ.get('BUCKET_NAME',
-    #                            app_identity.get_default_gcs_bucket_name())
+    bucket_name = os.environ.get('BUCKET_NAME',
+                               app_identity.get_default_gcs_bucket_name())
 
-    # storage_client = storage.Client()
-    # # bucket = storage_client.get_bucket(bucket_name)
+    storage_client = storage.Client()
+    # bucket = storage_client.get_bucket(bucket_name)
 
-    # bucket = '/' + bucket_name
-    # filename = bucket + '/final-2000.json'
-    # # f = 'final-2000.json'
-    # print('\n\n\n' + filename)
-    # # create_file(filename)
-    # # link = find_blob(bucket_name, f)
-    # # f = read_file(filename)
-    # print('asdfasdfasdf')
+    bucket = '/' + bucket_name
+    filename = bucket + '/final-2000.json'
+    # f = 'final-2000.json'
+    print('\n\n\n' + filename)
+    # create_file(filename)
+    # link = find_blob(bucket_name, f)
+    # f = read_file(filename)
+    print('asdfasdfasdf')
 
-    # stats = memcache.get_stats()
-    # print(stats)
-    # val = memcache.get(key="final-5000")
-    # print(val)
+    stats = memcache.get_stats()
+    print(stats)
+    val = memcache.get(key="final-5000")
+    print(val)
     
-    return render_template('force-directed.html', api_data=val)
+    return render_template('force-directed.html', api_data=[])
 
 @app.route('/fd-1500')
 def fd_1500():
