@@ -67,6 +67,27 @@ def matrix():
 def d3_adjacency_matrix_layout():
     return render_template('d3-adjacency-matrix-layout.js', api_data=[])
 
+# FINAL DATA 
+@app.route('/final-2000.json')
+def fd_json_offsides_final_2000():
+    return render_template('final-2000.json', api_data=[])
+
+@app.route('/final-1500.json')
+def fd_json_offsides_final_1500():
+    return render_template('final-1500.json', api_data=[])
+
+@app.route('/final-5000.json')
+def fd_json_offsides_final_5000():
+    return render_template('final-5000.json', api_data=[])
+
+@app.route('/final-10000.json')
+def fd_json_offsides_final_10000():
+    return render_template('final-10000.json', api_data=[])
+
+@app.route('/final-50000.json')
+def fd_json_offsides_final_50000():
+    return render_template('final-50000.json', api_data=[])
+    
 # ABOUT
 @app.route('/about')
 def about():

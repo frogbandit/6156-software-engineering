@@ -90,20 +90,20 @@
 </body
 <footer>
 <script>
-// d3.json('final-50000.json', createAdjacencyMatrix);
+d3.json('final-50000.json', createAdjacencyMatrix);
 
-// function createAdjacencyMatrix(data) {
+function createAdjacencyMatrix(data) {
 
   // Define the div for the tooltip
 
-url = "https://storage.googleapis.com/tswe-genomics.appspot.com/final-50000.json"
-$.ajax({
-  dataType: "json",
-  url: url,
-  }).done(function ( data ) {
-  // do my stuff
-    console.log(data);
-    console.log(typeof(data))
+// url = "https://storage.googleapis.com/tswe-genomics.appspot.com/final-50000.json"
+// $.ajax({
+//   dataType: "json",
+//   url: url,
+//   }).done(function ( data ) {
+//   // do my stuff
+//     console.log(data);
+//     console.log(typeof(data))
 
 
 var div = d3.select("body").append("div") 
@@ -162,7 +162,8 @@ var div = d3.select("body").append("div")
 
   d3.select('#adjacencyG')
     .call(adjacencyMatrix.yAxis);
-});
+};
+
 
 </script>
 </footer>
